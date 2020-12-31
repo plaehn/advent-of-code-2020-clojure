@@ -2,12 +2,11 @@
   (:require [clojure.string :as str]))
 
 (defn parse [line]
-  (map #((list
-           (read-string (first %))
-           (read-string (second %))
-           (first (get % 2))
-           (get % 3)))
-       (str/split line #"[-: ]+")))
+  (let [[min-str max-str chr-str pwd] (str/split line #"[-: ]+")
+        chr (first chr-str)
+        min (read-string min-str)
+        max (read-string max-str)]
+    (list min max chr pwd)))
 
 (def lines
   (map #(parse %) (str/split-lines (slurp "day2.txt"))))
