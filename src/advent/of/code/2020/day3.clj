@@ -11,8 +11,6 @@
     (get (get forest-map y)
          (mod x width))))
 
-(def trajectories '([1 3] [1 1] [1 5] [1 7] [2 1]))
-
 (defn path [trajectory]
   (loop [position '[0 0]
          path []]
@@ -27,8 +25,13 @@
 (defn number-of-trees [trajectory]
   (count (filter is-tree? (path trajectory))))
 
+(def trajectories '([1 3] [1 1] [1 5] [1 7] [2 1]))
+
 (def solution1 (number-of-trees (first trajectories)))
 (println (str "Solution part 1: " solution1))
 (assert (= solution1 234))
 
+(def solution2 (reduce * (map #(number-of-trees %) trajectories)))
+(println (str "Solution part 2: " solution2))
+(assert (= solution2 5813773056))
 
