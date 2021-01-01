@@ -30,13 +30,14 @@
 (def max-seat-id
   (apply max seat-ids))
 
+(defn has-gap? [pair]
+  (< 1 (reduce - (reverse pair))))
+
 (def my-seat-id
-  (inc
-    (first
-      (first
-        (filter
-          #(< 1 (- (second %) (first %)))
-          (partition 2 1 (sort seat-ids)))))))
+  (let [sorted-pairs (partition 2 1 (sort seat-ids))
+        pairs-with-gap (filter #(has-gap? %) sorted-pairs)
+        my-seat-id (inc (first (first pairs-with-gap)))]
+    my-seat-id))
 
 (println (str "Solution part 1: " max-seat-id))
 (assert (= max-seat-id 826))
