@@ -32,14 +32,11 @@
 
 (def my-seat-id
   (inc
-    (reduce
-      (fn [last-id id]
-        (cond
-          (= last-id 0) id
-          (< 1 (- id last-id)) last-id
-          :else id))
-      0
-      (sort seat-ids))))
+    (first
+      (first
+        (filter
+          #(< 1 (- (second %) (first %)))
+          (partition 2 1 (sort seat-ids)))))))
 
 (println (str "Solution part 1: " max-seat-id))
 (assert (= max-seat-id 826))
