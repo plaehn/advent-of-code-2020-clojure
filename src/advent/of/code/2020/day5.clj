@@ -24,9 +24,26 @@
         seat-id (+ (* 8 row) col)]
     seat-id))
 
+(def seat-ids
+  (map #(compute-seat-id %) boarding-passes))
+
 (def max-seat-id
-  (apply max (map #(compute-seat-id %) boarding-passes)))
+  (apply max seat-ids))
+
+(def my-seat-id
+  (inc
+    (reduce
+      (fn [last-id id]
+        (cond
+          (= last-id 0) id
+          (< 1 (- id last-id)) last-id
+          :else id))
+      0
+      (sort seat-ids))))
 
 (println (str "Solution part 1: " max-seat-id))
 (assert (= max-seat-id 826))
+
+(println (str "Solution part 2: " my-seat-id))
+(assert (= my-seat-id 678))
 
