@@ -1,5 +1,6 @@
 (ns advent.of.code.2020.day4
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [common.text :as txt]))
 
 (defn parse-fields [fields]
   (vec (str/split fields #"\:")))
@@ -8,7 +9,7 @@
   (into {} (map #(parse-fields %) (str/split passport #"\s+"))))
 
 (def passports
-  (map #(parse-passport %) (str/split (slurp "day4.txt") #"\r?\n\r?\n")))
+  (map #(parse-passport %) (txt/group-by-blank-lines (slurp "day4.txt"))))
 
 
 (def field-validators {"byr" #(<= 1920 (read-string %) 2002)
