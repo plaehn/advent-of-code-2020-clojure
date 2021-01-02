@@ -15,10 +15,10 @@
       (range 0 (inc max-val))
       input)))
 
-(defn compute-seat-id [input]
-  (let [divider (- (count input) 3)
-        row-str (subs input 0 divider)
-        col-str (subs input divider)
+(defn compute-seat-id [boarding-pass]
+  (let [divider (- (count boarding-pass) 3)
+        row-str (subs boarding-pass 0 divider)
+        col-str (subs boarding-pass divider)
         row (reduce-range row-str 127 \F)
         col (reduce-range col-str 7 \L)
         seat-id (+ (* 8 row) col)]
