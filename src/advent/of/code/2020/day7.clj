@@ -33,6 +33,21 @@
         (can-contain? color own-color)))
     (bag-rules bag)))
 
-(def count-part-1 (count (filter #(can-contain? (first %) "shiny gold") bag-rules)))
-(println (str "Solution part 1: " count-part-1))
-(assert (= count-part-1 257))
+(defn count-bags-in [bag]
+  (let [contained-bags (bag-rules bag)]
+    (if (empty? contained-bags)
+      0
+      (reduce
+        +
+        (map
+          (fn [[n color]]
+            (* n (inc (count-bags-in color))))
+          contained-bags)))))
+
+(def solution-part-1 (count (filter #(can-contain? (first %) "shiny gold") bag-rules)))
+(println (str "Solution part 1: " solution-part-1))
+(assert (= solution-part-1 257))
+
+(def solution-part-2 (count-bags-in "shiny gold"))
+(println (str "Solution part 2: " solution-part-2))
+(assert (= solution-part-2 1038))
